@@ -3,12 +3,12 @@
  *
  * Copyright (c) 1997 Cornell University.
  * Copyright (c) 1997 Sun Microsystems, Inc.
+ * Copyright (c) 2012 Stefan Magnus Landrø
  *
  * See the file "license.terms" for information on usage and
  * redistribution of this file, and for a DISCLAIMER OF ALL
  * WARRANTIES.
  * 
- * RCS: @(#) $Id: Expression.java,v 1.40 2009/07/10 14:22:00 rszulgo Exp $
  *
  */
 

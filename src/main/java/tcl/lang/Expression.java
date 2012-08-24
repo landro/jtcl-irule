@@ -67,8 +67,25 @@ public class Expression {
 
 	// TODO
 	// irule operators:
+	
+	// String related
 	public static final int STRSTARTSWITH = 34;
-	// TODO
+	public static final int STRENDSWITH = 35;
+	public static final int STRCONTAINS = 36;
+	
+	
+	
+	/**
+	#- starts_with Tests if one string starts_with another string
+	#- ends_with Tests if one string ends with another string
+	#- contains Tests if one string contains another string
+	- matches_glob Implement glob style matching within a comparison
+	- matches_regex Tests if one string matches a regular expression
+	- equals Tests if one string equals another string
+	- and Performs a logical "and" comparison between two values
+	- not Performs a logical "not" on a value
+	- or Performs a logical "or" comparison between two values
+	*/
 
 	/**
 	 * Precedence table. The values for non-operator token types are ignored.
@@ -89,9 +106,9 @@ public class Expression {
 			1, // COLON
 			8, 8, // STREQ, STRNEQ
 			13, 13, 13, 13, // UNARY_MINUS, UNARY_PLUS, NOT, // BIT_NOT
+			// TODO iRule operators
+			8, 8, 8 // STRSTARTSWITH, STRENDSWITH, STRCONTAINS
 			// TODO
-			8 // STRSTARTSWITH
-	// TODO
 	};
 
 	/**
@@ -99,7 +116,8 @@ public class Expression {
 	 */
 	// TODO
 	public static String operatorStrings[] = { "VALUE", "(", ")", ",", "END", "UNKNOWN", "6", "7", "*", "/", "%", "+", "-", "<<", ">>",
-			"<", ">", "<=", ">=", "==", "!=", "&", "^", "|", "&&", "||", "?", ":", "eq", "ne", "-", "+", "!", "~", "starts_with" };
+			"<", ">", "<=", ">=", "==", "!=", "&", "^", "|", "&&", "||", "?", ":", "eq", "ne", "-", "+", "!", "~", 
+			"starts_with", "ends_with", "contains" };
 	// TODO
 
 	/**
@@ -936,6 +954,12 @@ public class Expression {
 		case STRSTARTSWITH:
 			value.setIntValue(value.getStringValue().startsWith(value2.getStringValue()));
 			return;
+		case STRENDSWITH:
+			value.setIntValue(value.getStringValue().endsWith(value2.getStringValue()));
+			return;
+		case STRCONTAINS:
+			value.setIntValue(value.getStringValue().contains(value2.getStringValue()));
+			return;
 			// TODO
 
 			// For the operators below, no strings are allowed, but
@@ -1715,8 +1739,13 @@ public class Expression {
 				m_token = STRNEQ;
 				return null;
 			}
-
 			// TODO
+			else if (c == 'e' && c2 == 'n' && c3 == 'd' && c4 == 's' && c5 == '_' && c6 == 'w' && c7 == 'i' && c8 == 't' && c9 == 'h') {
+				m_ind += 8;
+				m_token = STRENDSWITH;
+				return null;
+			}
+
 		case 's':
 			if (c2 == 't' && c3 == 'a' && c4 == 'r' && c5 == 't' && c6 == 's' && c7 == '_' && c8 == 'w' && c9 == 'i' && c10 == 't'
 					&& c11 == 'h') {
@@ -1724,7 +1753,13 @@ public class Expression {
 				m_token = STRSTARTSWITH;
 				return null;
 			}
-
+		
+		case 'c':
+			if (c2 == 'o' && c3 == 'n' && c4 == 't' && c5 == 'a' && c6 == 'i' && c7 == 'n' && c8 == 's' ) {
+				m_ind += 7;
+				m_token = STRCONTAINS;
+				return null;
+			}
 			// TODO
 			// Fall through to default
 

@@ -1,5 +1,7 @@
 package tcl.lang.cmd;
 
+import static tcl.lang.Expression.convertGlobToRegEx;
+
 import java.util.Arrays;
 import java.util.LinkedList;
 
@@ -16,5 +18,9 @@ public class ExprCmdTest  extends TclCmdTest {
 	        }));
 		String resName = "/tcl/lang/cmd/expr.test";
 		tclTestResource(resName, expectedFailureList);
+	}
+	
+	public void testConvertGlobToRegEx() {
+		assertEquals("abc", convertGlobToRegEx("abc*"));
 	}
 }

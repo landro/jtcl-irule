@@ -16,6 +16,7 @@ package tcl.lang;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
 /**
  * This class handles Tcl expressions.
@@ -73,14 +74,15 @@ public class Expression {
 	public static final int STRENDSWITH = 35;
 	public static final int STRCONTAINS = 36;
 	
-	
+	public static final int STRMATCHESGLOB = 37;
+	public static final int STRMATCHESREGEX = 38;
 	
 	/**
 	#- starts_with Tests if one string starts_with another string
 	#- ends_with Tests if one string ends with another string
 	#- contains Tests if one string contains another string
-	- matches_glob Implement glob style matching within a comparison
-	- matches_regex Tests if one string matches a regular expression
+	#- matches_glob Implement glob style matching within a comparison
+	#- matches_regex Tests if one string matches a regular expression
 	- equals Tests if one string equals another string
 	- and Performs a logical "and" comparison between two values
 	- not Performs a logical "not" on a value
@@ -107,7 +109,8 @@ public class Expression {
 			8, 8, // STREQ, STRNEQ
 			13, 13, 13, 13, // UNARY_MINUS, UNARY_PLUS, NOT, // BIT_NOT
 			// TODO iRule operators
-			8, 8, 8 // STRSTARTSWITH, STRENDSWITH, STRCONTAINS
+			8, 8, 8, // STRSTARTSWITH, STRENDSWITH, STRCONTAINS
+			8, 8 // STRMATCHESGLOB, STRMATCHESREGEX
 			// TODO
 	};
 
@@ -117,7 +120,7 @@ public class Expression {
 	// TODO
 	public static String operatorStrings[] = { "VALUE", "(", ")", ",", "END", "UNKNOWN", "6", "7", "*", "/", "%", "+", "-", "<<", ">>",
 			"<", ">", "<=", ">=", "==", "!=", "&", "^", "|", "&&", "||", "?", ":", "eq", "ne", "-", "+", "!", "~", 
-			"starts_with", "ends_with", "contains" };
+			"starts_with", "ends_with", "contains", "matches_glob", "matches_regex" };
 	// TODO
 
 	/**
@@ -960,6 +963,12 @@ public class Expression {
 		case STRCONTAINS:
 			value.setIntValue(value.getStringValue().contains(value2.getStringValue()));
 			return;
+		case STRMATCHESGLOB:
+			value.setIntValue(Pattern.matches(convertGlobToRegEx(value2.getStringValue()), value.getStringValue()));
+			return;
+		case STRMATCHESREGEX:
+			value.setIntValue(Pattern.matches(value2.getStringValue(), value.getStringValue()));
+			return;
 			// TODO
 
 			// For the operators below, no strings are allowed, but
@@ -1314,7 +1323,7 @@ public class Expression {
 	 * @return the value of the expression.
 	 */
 	private ExprValue ExprLex(final Interp interp) throws TclException {
-		char c, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11;
+		char c, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13;
 
 		while (m_ind < m_len && (((c = m_expr.charAt(m_ind)) == ' ') || Character.isWhitespace(c))) {
 			m_ind++;
@@ -1333,7 +1342,7 @@ public class Expression {
 		c = m_expr.charAt(m_ind);
 
 		// TODO
-		if (m_ind < m_len - 10) {
+		if (m_ind < m_len - 12) {
 			c2 = m_expr.charAt(m_ind + 1);
 			c3 = m_expr.charAt(m_ind + 2);
 			c4 = m_expr.charAt(m_ind + 3);
@@ -1344,6 +1353,38 @@ public class Expression {
 			c9 = m_expr.charAt(m_ind + 8);
 			c10 = m_expr.charAt(m_ind + 9);
 			c11 = m_expr.charAt(m_ind + 10);
+			c12 = m_expr.charAt(m_ind + 11);
+			c13 = m_expr.charAt(m_ind + 12);
+		}
+
+		else if (m_ind < m_len - 11) {
+			c2 = m_expr.charAt(m_ind + 1);
+			c3 = m_expr.charAt(m_ind + 2);
+			c4 = m_expr.charAt(m_ind + 3);
+			c5 = m_expr.charAt(m_ind + 4);
+			c6 = m_expr.charAt(m_ind + 5);
+			c7 = m_expr.charAt(m_ind + 6);
+			c8 = m_expr.charAt(m_ind + 7);
+			c9 = m_expr.charAt(m_ind + 8);
+			c10 = m_expr.charAt(m_ind + 9);
+			c11 = m_expr.charAt(m_ind + 10);
+			c12 = m_expr.charAt(m_ind + 11);
+			c13 = '\0';
+		}
+
+		else if (m_ind < m_len - 10) {
+			c2 = m_expr.charAt(m_ind + 1);
+			c3 = m_expr.charAt(m_ind + 2);
+			c4 = m_expr.charAt(m_ind + 3);
+			c5 = m_expr.charAt(m_ind + 4);
+			c6 = m_expr.charAt(m_ind + 5);
+			c7 = m_expr.charAt(m_ind + 6);
+			c8 = m_expr.charAt(m_ind + 7);
+			c9 = m_expr.charAt(m_ind + 8);
+			c10 = m_expr.charAt(m_ind + 9);
+			c11 = m_expr.charAt(m_ind + 10);
+			c12 = '\0';
+			c13 = '\0';
 		}
 
 		else if (m_ind < m_len - 9) {
@@ -1357,6 +1398,8 @@ public class Expression {
 			c9 = m_expr.charAt(m_ind + 8);
 			c10 = m_expr.charAt(m_ind + 9);
 			c11 = '\0';
+			c12 = '\0';
+			c13 = '\0';
 		}
 
 		else if (m_ind < m_len - 8) {
@@ -1370,6 +1413,8 @@ public class Expression {
 			c9 = m_expr.charAt(m_ind + 8);
 			c10 = '\0';
 			c11 = '\0';
+			c12 = '\0';
+			c13 = '\0';
 		}
 
 		else if (m_ind < m_len - 7) {
@@ -1383,6 +1428,8 @@ public class Expression {
 			c9 = '\0';
 			c10 = '\0';
 			c11 = '\0';
+			c12 = '\0';
+			c13 = '\0';
 		}
 
 		else if (m_ind < m_len - 6) {
@@ -1396,6 +1443,8 @@ public class Expression {
 			c9 = '\0';
 			c10 = '\0';
 			c11 = '\0';
+			c12 = '\0';
+			c13 = '\0';
 		}
 
 		else if (m_ind < m_len - 5) {
@@ -1409,6 +1458,8 @@ public class Expression {
 			c9 = '\0';
 			c10 = '\0';
 			c11 = '\0';
+			c12 = '\0';
+			c13 = '\0';
 		}
 
 		else if (m_ind < m_len - 4) {
@@ -1422,6 +1473,8 @@ public class Expression {
 			c9 = '\0';
 			c10 = '\0';
 			c11 = '\0';
+			c12 = '\0';
+			c13 = '\0';
 		}
 
 		else if (m_ind < m_len - 3) {
@@ -1435,6 +1488,8 @@ public class Expression {
 			c9 = '\0';
 			c10 = '\0';
 			c11 = '\0';
+			c12 = '\0';
+			c13 = '\0';
 		}
 
 		else if (m_ind < m_len - 2) {
@@ -1448,6 +1503,8 @@ public class Expression {
 			c9 = '\0';
 			c10 = '\0';
 			c11 = '\0';
+			c12 = '\0';
+			c13 = '\0';
 		}
 
 		// TODO
@@ -1464,6 +1521,8 @@ public class Expression {
 			c9 = '\0';
 			c10 = '\0';
 			c11 = '\0';
+			c12 = '\0';
+			c13 = '\0';
 			// TODO
 		}
 
@@ -1479,6 +1538,8 @@ public class Expression {
 			c9 = '\0';
 			c10 = '\0';
 			c11 = '\0';
+			c12 = '\0';
+			c13 = '\0';
 			// TODO
 		}
 
@@ -1759,6 +1820,19 @@ public class Expression {
 				m_ind += 7;
 				m_token = STRCONTAINS;
 				return null;
+			}
+			
+		case 'm':
+			if(c2 == 'a' && c3 == 't' && c4 == 'c' && c5 == 'h' && c6 == 'e' && c7 == 's' && c8 == '_' ) {
+				if (c9 == 'g' && c10 == 'l' && c11 == 'o' && c12 == 'b' ) {
+					m_ind += 11;
+					m_token = STRMATCHESGLOB;
+					return null;
+				} else if (c9 == 'r' && c10 == 'e' && c11 == 'g' && c12 == 'e' && c13 == 'x' ) {
+					m_ind += 12;
+					m_token = STRMATCHESREGEX;
+					return null;
+				}
 			}
 			// TODO
 			// Fall through to default

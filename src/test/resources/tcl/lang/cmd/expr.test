@@ -335,6 +335,13 @@ test expr-8.28 {CompileBitAndExpr: equality expr} {expr {"abcd" contains "cb"}} 
 test expr-8.29 {CompileBitAndExpr: equality expr} {expr {"abcd" contains "abcd"}} 1
 test expr-8.30 {CompileBitAndExpr: equality expr} {expr {"abcd" contains "bcd"}} 1
 
+test expr-8.31 {CompileBitAndExpr: equality expr} {expr {"abcd" matches_glob "cb*"}} 0
+test expr-8.32 {CompileBitAndExpr: equality expr} {expr {"abcd" matches_glob "abcd"}} 1
+test expr-8.33 {CompileBitAndExpr: equality expr} {expr {"abcd" matches_glob "?bcd"}} 1
+
+test expr-8.34 {CompileBitAndExpr: equality expr} {expr {"abcd" matches_regex ".cb."}} 0
+test expr-8.35 {CompileBitAndExpr: equality expr} {expr {"abcd" matches_regex ".+cd"}} 1
+test expr-8.36 {CompileBitAndExpr: equality expr} {expr {"abcd" matches_regex "abcd"}} 1
 
 test expr-9.1 {CompileRelationalExpr: just shift expr} {expr 3<<2} 12
 test expr-9.2 {CompileRelationalExpr: just shift expr} {expr 0xff>>2} 63

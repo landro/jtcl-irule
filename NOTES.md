@@ -1,6 +1,6 @@
 Original JTcl source code was modified in order to support iRule operators:
 
-*iRule only operators
+_iRule only operators_
 
 - starts_with Tests if one string starts_with another string
 - ends_with Tests if one string ends with another string
@@ -10,7 +10,7 @@ Original JTcl source code was modified in order to support iRule operators:
 - matches_regex Tests if one string matches a regular expression
 
 
-*iRule aliases to standard Tcl operators 
+_iRule aliases to standard Tcl operators_
 
 - equals Tests if one string equals another string
   - equivalent of "eq" operator  

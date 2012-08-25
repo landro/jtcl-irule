@@ -68,22 +68,23 @@ public class Expression {
 
 	// TODO
 	// irule operators:
-	
-	// String related
+
 	public static final int STRSTARTSWITH = 34;
 	public static final int STRENDSWITH = 35;
 	public static final int STRCONTAINS = 36;
-	
+
 	public static final int STRMATCHESGLOB = 37;
 	public static final int STRMATCHESREGEX = 38;
-	
+
+	public static final int STREQUALS = 39;
+
 	/**
 	#- starts_with Tests if one string starts_with another string
 	#- ends_with Tests if one string ends with another string
 	#- contains Tests if one string contains another string
 	#- matches_glob Implement glob style matching within a comparison
 	#- matches_regex Tests if one string matches a regular expression
-	- equals Tests if one string equals another string
+	#- equals Tests if one string equals another string
 	- and Performs a logical "and" comparison between two values
 	- not Performs a logical "not" on a value
 	- or Performs a logical "or" comparison between two values
@@ -110,7 +111,8 @@ public class Expression {
 			13, 13, 13, 13, // UNARY_MINUS, UNARY_PLUS, NOT, // BIT_NOT
 			// TODO iRule operators
 			8, 8, 8, // STRSTARTSWITH, STRENDSWITH, STRCONTAINS
-			8, 8 // STRMATCHESGLOB, STRMATCHESREGEX
+			8, 8, // STRMATCHESGLOB, STRMATCHESREGEX
+			8 // STREQUALS
 			// TODO
 	};
 
@@ -120,7 +122,7 @@ public class Expression {
 	// TODO
 	public static String operatorStrings[] = { "VALUE", "(", ")", ",", "END", "UNKNOWN", "6", "7", "*", "/", "%", "+", "-", "<<", ">>",
 			"<", ">", "<=", ">=", "==", "!=", "&", "^", "|", "&&", "||", "?", ":", "eq", "ne", "-", "+", "!", "~", 
-			"starts_with", "ends_with", "contains", "matches_glob", "matches_regex" };
+			"starts_with", "ends_with", "contains", "matches_glob", "matches_regex", "equals" };
 	// TODO
 
 	/**
@@ -969,6 +971,9 @@ public class Expression {
 		case STRMATCHESREGEX:
 			value.setIntValue(Pattern.matches(value2.getStringValue(), value.getStringValue()));
 			return;
+		case STREQUALS:
+			value.setIntValue(value.getStringValue().equals(value2.getStringValue()));
+			return;
 			// TODO
 
 			// For the operators below, no strings are allowed, but
@@ -1789,18 +1794,24 @@ public class Expression {
 			m_token = BIT_NOT;
 			return null;
 
+		// TODO
 		case 'e':
 		case 'n':
 			if (c == 'e' && c2 == 'q') {
-				m_ind += 1;
-				m_token = STREQ;
+				if (c3 == 'u' && c4 == 'a' && c5 == 'l' && c6 == 's') {
+					m_ind += 5;
+					m_token = STREQUALS;
+				} else {
+					m_ind += 1;
+					m_token = STREQ;
+				}
 				return null;
 			} else if (c == 'n' && c2 == 'e') {
 				m_ind += 1;
 				m_token = STRNEQ;
 				return null;
 			}
-			// TODO
+			
 			else if (c == 'e' && c2 == 'n' && c3 == 'd' && c4 == 's' && c5 == '_' && c6 == 'w' && c7 == 'i' && c8 == 't' && c9 == 'h') {
 				m_ind += 8;
 				m_token = STRENDSWITH;

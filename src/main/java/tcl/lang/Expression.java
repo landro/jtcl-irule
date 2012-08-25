@@ -76,7 +76,7 @@ public class Expression {
 	public static final int STRMATCHESGLOB = 37;
 	public static final int STRMATCHESREGEX = 38;
 
-	public static final int STREQUALS = 39;
+	public static final int ALIASEQUALS = 39;
 
 	/**
 	#- starts_with Tests if one string starts_with another string
@@ -86,8 +86,8 @@ public class Expression {
 	#- matches_regex Tests if one string matches a regular expression
 	#- equals Tests if one string equals another string
 	- and Performs a logical "and" comparison between two values
-	- not Performs a logical "not" on a value
 	- or Performs a logical "or" comparison between two values
+	- not Performs a logical "not" on a value
 	*/
 
 	/**
@@ -112,7 +112,7 @@ public class Expression {
 			// TODO iRule operators
 			8, 8, 8, // STRSTARTSWITH, STRENDSWITH, STRCONTAINS
 			8, 8, // STRMATCHESGLOB, STRMATCHESREGEX
-			8 // STREQUALS
+			8 // ALIASEQUALS
 			// TODO
 	};
 
@@ -971,7 +971,7 @@ public class Expression {
 		case STRMATCHESREGEX:
 			value.setIntValue(Pattern.matches(value2.getStringValue(), value.getStringValue()));
 			return;
-		case STREQUALS:
+		case ALIASEQUALS:
 			value.setIntValue(value.getStringValue().equals(value2.getStringValue()));
 			return;
 			// TODO
@@ -1800,7 +1800,7 @@ public class Expression {
 			if (c == 'e' && c2 == 'q') {
 				if (c3 == 'u' && c4 == 'a' && c5 == 'l' && c6 == 's') {
 					m_ind += 5;
-					m_token = STREQUALS;
+					m_token = ALIASEQUALS;
 				} else {
 					m_ind += 1;
 					m_token = STREQ;

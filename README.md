@@ -4,7 +4,7 @@ This is an extension to [JTcl](http://jtcl.kenai.com/) that implements all the f
 
 # Building
 
-* Fetch the [source](https://hg.kenai.com/hg/jtcl~jtcl-main) of [JTcl](http://jtcl.kenai.com/) from its mercurial repo and replace the maven-jar-plugin config with the following in order to generate the test jar 
+Fetch the [source](https://hg.kenai.com/hg/jtcl~jtcl-main) of [JTcl](http://jtcl.kenai.com/) from its mercurial repo and replace the maven-jar-plugin config with the following in order to generate the test jar 
 
      <plugin>
         <artifactId>maven-jar-plugin</artifactId>
@@ -34,10 +34,10 @@ This is an extension to [JTcl](http://jtcl.kenai.com/) that implements all the f
       </plugin>
 
 If you're using Mac Os X and don't have mercurial installed, I recommend using the Source Tree app from the app store. It has support for both git and mercurial.
-* Build and install the artifacts into your local maven repository using
+The next step, is to build and install the artifacts into your local maven repository using
 
     mvn clean install -DskipTests
     
-* Next, fetch the source code of this project, and build code using 
+Next, fetch the source code of this project, and build code using 
 
     mvn clean install

@@ -40,4 +40,11 @@ The next step, is to build and install the artifacts into your local maven repos
     
 Next, fetch the source code of this project, and build code using 
 
-    mvn clean install
+    mvn clean package
+
+This will generate a jar file named *jtcl-irule.jar* in the _target_ directory.
+This jar file has to be added to the JTcl shell script in order to override som of the functionality found in JTcl.
+Place it in front of the other jar file - it will take precedence.
+
+# What has been implemented so far
+All the special irule operators except for the following have been implemented.

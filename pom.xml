@@ -30,4 +30,7 @@
 			<version>4.8.2</version>
 		</dependency>
 	</dependencies>
+	<build>
+	 <finalName>jtcl-irule-operators</finalName>
+	</build>
 </project>

@@ -47,4 +47,7 @@ This jar file has to be added to the JTcl shell script in order to override som 
 Place it in front of the other jar file - it will take precedence.
 
 # What has been implemented so far
-All the special irule operators except for the following have been implemented.
+All the special irule operators except for the following have been implemented:
+* and
+* or
+* not

@@ -2,11 +2,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.testcl</groupId>
-	<artifactId>jtcl-irule-operators</artifactId>
+	<artifactId>jtcl-irule</artifactId>
 	<packaging>jar</packaging>
 	<version>0.8-SNAPSHOT</version>
 	<url>http://testcl.com</url>
-	<name>jtcl-irule-operators</name>
+	<name>jtcl-irule</name>
 	<properties>
 		<jtcl.version>2.3.0</jtcl.version>
 	</properties>
@@ -31,6 +31,6 @@
 		</dependency>
 	</dependencies>
 	<build>
-	 <finalName>jtcl-irule-operators</finalName>
+	 <finalName>jtcl-irule</finalName>
 	</build>
 </project>

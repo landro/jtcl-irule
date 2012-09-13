@@ -2,7 +2,7 @@ Original JTcl source code was modified in order to support iRule operators:
 
 __iRule only operators__
 
-- *starts_with* Tests if one string starts_with another string
+- *starts_with* Tests if one string starts with another string
 - *ends_with* Tests if one string ends with another string
 - *contains* Tests if one string contains another string
 - *matches_glob* Implement glob style matching within a comparison

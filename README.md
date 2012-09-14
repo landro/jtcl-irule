@@ -52,3 +52,6 @@ All the special irule operators except for the following have been implemented:
 * and
 * or
 * not
+
+# License
+Both jtcl-irule and JTcl are released under a BSD-style license. 

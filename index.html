@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Jtcl-irule : An extension to JTcl that implements all the functionality F5 added to the Tcl language" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Jtcl-irule</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/landro/jtcl-irule">View on GitHub</a>
+
+          <h1 id="project_title">Jtcl-irule</h1>
+          <h2 id="project_tagline">An extension to JTcl that implements all the functionality F5 added to the Tcl language</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/landro/jtcl-irule/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/landro/jtcl-irule/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>Introduction</h1>
+
+<p>This is an extension to <a href="http://jtcl.kenai.com/">JTcl</a> that implements all the functionality F5 added to the Tcl language.</p>
+
+<h1>Building</h1>
+
+<p>Fetch the <a href="https://hg.kenai.com/hg/jtcl%7Ejtcl-main">source</a> of <a href="http://jtcl.kenai.com/">JTcl</a> using mercurial and replace the maven-jar-plugin config with the following in order to generate the test jar </p>
+
+<pre><code> &lt;plugin&gt;
+    &lt;artifactId&gt;maven-jar-plugin&lt;/artifactId&gt;
+    &lt;version&gt;2.2&lt;/version&gt;
+    &lt;executions&gt;
+      &lt;execution&gt;
+        &lt;id&gt;default-jar&lt;/id&gt;
+        &lt;phase&gt;package&lt;/phase&gt;
+        &lt;goals&gt;
+          &lt;goal&gt;jar&lt;/goal&gt;
+        &lt;/goals&gt;
+        &lt;configuration&gt;
+          &lt;archive&gt;
+            &lt;manifest&gt;
+              &lt;mainClass&gt;tcl.lang.Shell&lt;/mainClass&gt;
+            &lt;/manifest&gt;
+            &lt;manifestEntries /&gt;
+          &lt;/archive&gt;
+        &lt;/configuration&gt;
+      &lt;/execution&gt;
+      &lt;execution&gt;
+        &lt;goals&gt;
+          &lt;goal&gt;test-jar&lt;/goal&gt;
+        &lt;/goals&gt;
+      &lt;/execution&gt;
+    &lt;/executions&gt;
+  &lt;/plugin&gt;
+</code></pre>
+
+<p>If you're using Mac Os X and don't have mercurial installed, I recommend using the <a href="http://www.sourcetreeapp.com/">Source Tree</a> app from the app store.
+It has excellent support for both git and mercurial.
+The next step, is to build and install the artifacts into your local maven repository using</p>
+
+<pre><code>mvn clean install -DskipTests
+</code></pre>
+
+<p>Next, fetch the source code of this project, and build code using </p>
+
+<pre><code>mvn clean package
+</code></pre>
+
+<p>This will generate a jar file named <em>jtcl-irule.jar</em> in the <em>target</em> directory.
+This jar file has to be added to the classpath of the JTcl shell script in order to override som of the functionality found in JTcl.
+Place it in front of the other jar file - it will take precedence.</p>
+
+<h1>What has been implemented so far</h1>
+
+<p>All the special irule operators except for the following have been implemented:</p>
+
+<ul>
+<li>and</li>
+<li>or</li>
+<li>not</li>
+</ul><h1>License</h1>
+
+<p>Both jtcl-irule and JTcl are released under a BSD-style license. </p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Jtcl-irule maintained by <a href="https://github.com/landro">landro</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>

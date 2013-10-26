@@ -3,7 +3,7 @@
  *
  * Copyright (c) 1997 Cornell University.
  * Copyright (c) 1997 Sun Microsystems, Inc.
- * Copyright (c) 2012 Stefan Magnus Landrø
+ * Copyright (c) 2012 Stefan Magnus Landrï¿½
  *
  * See the file "license.terms" for information on usage and
  * redistribution of this file, and for a DISCLAIMER OF ALL
@@ -77,6 +77,9 @@ public class Expression {
 	public static final int STRMATCHESREGEX = 38;
 
 	public static final int ALIASEQUALS = 39;
+	public static final int ALIASAND = 40;
+	public static final int ALIASOR = 41;
+	public static final int ALIASNOT = 42;
 
 	/**
 	#- starts_with Tests if one string starts_with another string
@@ -85,9 +88,9 @@ public class Expression {
 	#- matches_glob Implement glob style matching within a comparison
 	#- matches_regex Tests if one string matches a regular expression
 	#- equals Tests if one string equals another string
-	- and Performs a logical "and" comparison between two values
-	- or Performs a logical "or" comparison between two values
-	- not Performs a logical "not" on a value
+	#- and Performs a logical "and" comparison between two values
+	#- or Performs a logical "or" comparison between two values
+	#- not Performs a logical "not" on a value
 	*/
 
 	/**
@@ -112,7 +115,8 @@ public class Expression {
 			// TODO iRule operators
 			8, 8, 8, // STRSTARTSWITH, STRENDSWITH, STRCONTAINS
 			8, 8, // STRMATCHESGLOB, STRMATCHESREGEX
-			8 // ALIASEQUALS
+			8, // ALIASEQUALS
+			4, 3, 13 //ALIASAND, ALIASOR, ALIASNOT
 			// TODO
 	};
 
@@ -122,7 +126,7 @@ public class Expression {
 	// TODO
 	public static String operatorStrings[] = { "VALUE", "(", ")", ",", "END", "UNKNOWN", "6", "7", "*", "/", "%", "+", "-", "<<", ">>",
 			"<", ">", "<=", ">=", "==", "!=", "&", "^", "|", "&&", "||", "?", ":", "eq", "ne", "-", "+", "!", "~", 
-			"starts_with", "ends_with", "contains", "matches_glob", "matches_regex", "equals" };
+			"starts_with", "ends_with", "contains", "matches_glob", "matches_regex", "equals", "and", "or", "not" };
 	// TODO
 
 	/**
@@ -692,7 +696,7 @@ public class Expression {
 			// determines the result, don't execute anything in the
 			// second operand: just parse. Same style for ?: pairs.
 
-			if ((operator == AND) || (operator == OR) || (operator == QUESTY)) {
+			if ((operator == AND) || (operator == OR) || (operator == QUESTY) || (operator == ALIASAND) || (operator == ALIASOR)) {
 
 				if (value.isDoubleType()) {
 					value.setIntValue(value.getDoubleValue() != 0.0);
@@ -712,14 +716,14 @@ public class Expression {
 						value.setIntValue(0);
 					}
 				}
-				if (((operator == AND) && (value.getIntValue() == 0)) || ((operator == OR) && (value.getIntValue() != 0))) {
+				if ((((operator == AND) || (operator == ALIASAND)) && (value.getIntValue() == 0)) || (((operator == OR) || (operator == ALIASOR)) && (value.getIntValue() != 0))) {
 					interp.noEval++;
 					try {
 						value2 = ExprGetValue(interp, precTable[operator]);
 					} finally {
 						interp.noEval--;
 					}
-					if (operator == OR) {
+					if ((operator == OR) || (operator == ALIASOR)) {
 						value.setIntValue(1);
 					}
 					continue;
@@ -806,6 +810,7 @@ public class Expression {
 			}
 			break;
 		case NOT:
+		case ALIASNOT:
 			if (value.isIntType()) {
 				// Inlined method does not reset type to INT
 				value.optIntUnaryNot();
@@ -980,7 +985,9 @@ public class Expression {
 			// no int->double conversions are performed.
 
 		case AND:
+		case ALIASAND:
 		case OR:
+		case ALIASOR:
 			if (t1 == ExprValue.STRING) {
 				IllegalType(interp, ExprValue.STRING, operator);
 			}
@@ -1295,12 +1302,14 @@ public class Expression {
 		// the possibility of int vs. double for the second value.
 
 		case AND:
+		case ALIASAND:
 			if (t2 == ExprValue.DOUBLE) {
 				value2.setIntValue(value2.getDoubleValue() != 0.0);
 			}
 			value.setIntValue(((value.getIntValue() != 0) && (value2.getIntValue() != 0)));
 			break;
 		case OR:
+		case ALIASOR
 			if (t2 == ExprValue.DOUBLE) {
 				value2.setIntValue(value2.getDoubleValue() != 0.0);
 			}
@@ -1795,9 +1804,27 @@ public class Expression {
 			return null;
 
 		// TODO
+		case 'o':
+			if (c == 'o' && c2 == 'r') {
+				m_ind += 1;
+				m_token = ALIASOR;
+				return null;
+			}
+		case 'a':
+			if (c == 'a' && c2 == 'n' && c3 == 'd') {
+				m_ind += 2;
+				m_token = ALIASAND;
+				return null;
+			}
 		case 'e':
 		case 'n':
-			if (c == 'e' && c2 == 'q') {
+			if (c == 'n' && c2 == 'o' && c3 == 't') {
+				m_ind += 2;
+				m_token = ALIASNOT;
+				return null;
+			}
+			
+			else if (c == 'e' && c2 == 'q') {
 				if (c3 == 'u' && c4 == 'a' && c5 == 'l' && c6 == 's') {
 					m_ind += 5;
 					m_token = ALIASEQUALS;
@@ -1819,7 +1846,7 @@ public class Expression {
 			}
 
 		case 's':
-			if (c2 == 't' && c3 == 'a' && c4 == 'r' && c5 == 't' && c6 == 's' && c7 == '_' && c8 == 'w' && c9 == 'i' && c10 == 't'
+			if (c == 's' && c2 == 't' && c3 == 'a' && c4 == 'r' && c5 == 't' && c6 == 's' && c7 == '_' && c8 == 'w' && c9 == 'i' && c10 == 't'
 					&& c11 == 'h') {
 				m_ind += 10;
 				m_token = STRSTARTSWITH;
@@ -1827,14 +1854,14 @@ public class Expression {
 			}
 		
 		case 'c':
-			if (c2 == 'o' && c3 == 'n' && c4 == 't' && c5 == 'a' && c6 == 'i' && c7 == 'n' && c8 == 's' ) {
+			if (c == 'c' && c2 == 'o' && c3 == 'n' && c4 == 't' && c5 == 'a' && c6 == 'i' && c7 == 'n' && c8 == 's' ) {
 				m_ind += 7;
 				m_token = STRCONTAINS;
 				return null;
 			}
 			
 		case 'm':
-			if(c2 == 'a' && c3 == 't' && c4 == 'c' && c5 == 'h' && c6 == 'e' && c7 == 's' && c8 == '_' ) {
+			if(c == 'm' && c2 == 'a' && c3 == 't' && c4 == 'c' && c5 == 'h' && c6 == 'e' && c7 == 's' && c8 == '_' ) {
 				if (c9 == 'g' && c10 == 'l' && c11 == 'o' && c12 == 'b' ) {
 					m_ind += 11;
 					m_token = STRMATCHESGLOB;

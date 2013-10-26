@@ -6,7 +6,7 @@
 #
 # Copyright (c) 1996-1997 Sun Microsystems, Inc.
 # Copyright (c) 1998-2000 by Scriptics Corporation.
-# Copyright (c) 2012 Stefan Magnus Landrø
+# Copyright (c) 2012 Stefan Magnus Landrï¿½
 #
 # See the file "license.terms" for information on usage and redistribution
 # of this file, and for a DISCLAIMER OF ALL WARRANTIES.
@@ -175,6 +175,12 @@ test expr-3.8 {CompileCondExpr: long arms & nested cond exprs} {unixOnly nonPort
     do_twelve_days
 } 2358
 catch {unset xxx}
+test expr-3.9 {CompileCondExpr: just lor expr} {expr 3 or 0} 1
+test expr-3.10 {CompileCondExpr: error in lor expr} {
+    catch {expr x or 3} msg
+    set msg
+} {syntax error in expression "x or 3": variable references require preceding $}
+
 
 test expr-4.1 {CompileLorExpr: just land expr} {expr 1.3&&3.3} 1
 test expr-4.2 {CompileLorExpr: error in land expr} {
@@ -200,6 +206,31 @@ test expr-4.9 {CompileLorExpr: long lor arm} {
     set i 7
     expr {[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]] || [string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]] || [string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]] || [string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]}
 } 1
+test expr-4.10 {CompileLorExpr: just land expr} {expr 1.3 and 3.3} 1
+test expr-4.11 {CompileLorExpr: error in land expr} {
+    catch {expr x and 3} msg
+    set msg
+} {syntax error in expression "x and 3": variable references require preceding $} 
+test expr-4.12 {CompileLorExpr: simple lor exprs} {expr 0 or 1.0} 1
+test expr-4.13 {CompileLorExpr: simple lor exprs} {expr 3.0 or 0.0} 1
+test expr-4.14 {CompileLorExpr: simple lor exprs} {expr 0 or 0 or 1} 1
+test expr-4.15 {CompileLorExpr: error compiling lor arm} {
+    catch {expr 2**3 or 4.0} msg
+    set msg
+} {syntax error in expression "2**3 or 4.0": unexpected operator *}
+test expr-4.16 {CompileLorExpr: error compiling lor arm} {
+    catch {expr 1.3 or 2**3} msg
+    set msg
+} {syntax error in expression "1.3 or 2**3": unexpected operator *}
+test expr-4.17 {CompileLorExpr: error compiling lor arms} {
+    list [catch {expr {"a" or "b"}} msg] $msg
+} {1 {expected boolean value but got "a"}}
+test expr-4.18 {CompileLorExpr: long lor arm} {
+    set a "abcdefghijkl"
+    set i 7
+    expr {[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]] or [string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]] or [string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]] or [string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]&&[string compare [format %c $i] [string index $a $i]]}
+} 1
+
 
 test expr-5.1 {CompileLandExpr: just bitor expr} {expr 7|0x13} 23
 test expr-5.2 {CompileLandExpr: error in bitor expr} {
@@ -225,6 +256,26 @@ test expr-5.10 {CompileLandExpr: long land arms} {
     set a "abcdefghijkl"
     set i 7
     expr {[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]] && [string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]] && [string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]] && [string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]}
+} 1
+test expr-5.11 {CompileLandExpr: simple land exprs} {expr 0 and 1.0} 0
+test expr-5.12 {CompileLandExpr: simple land exprs} {expr 0 and 0} 0
+test expr-5.13 {CompileLandExpr: simple land exprs} {expr 3.0 and 1.2} 1
+test expr-5.14 {CompileLandExpr: simple land exprs} {expr 1 and 1 and 2} 1
+test expr-5.15 {CompileLandExpr: error compiling land arm} {
+    catch {expr 2**3 and 4.0} msg
+    set msg
+} {syntax error in expression "2**3 and 4.0": unexpected operator *}
+test expr-5.16 {CompileLandExpr: error compiling land arm} {
+    catch {expr 1.3 and 2**3} msg
+    set msg
+} {syntax error in expression "1.3 and 2**3": unexpected operator *}
+test expr-5.17 {CompileLandExpr: error compiling land arm} {
+    list [catch {expr {"a" and "b"}} msg] $msg
+} {1 {expected boolean value but got "a"}}
+test expr-5.18 {CompileLandExpr: long land arms} {
+    set a "abcdefghijkl"
+    set i 7
+    expr {[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]] and [string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]] and [string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]] and [string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]^[string compare [format %c 103] [string index $a $i]]^[string compare [format %c 105] [string index $a $i]]}
 } 1
 
 test expr-6.1 {CompileBitXorExpr: just bitand expr} {expr 7&0x13} 3
@@ -458,6 +509,7 @@ test expr-12.10 {CompileMultiplyExpr: runtime error} {
 test expr-12.11 {CompileMultiplyExpr: runtime error} {
     list [catch {expr {"a"/"b"}} msg] $msg
 } {1 {can't use non-numeric string as operand of "/"}}
+test expr-12.12 {CompileMultiplyExpr: just unary expr} {expr not 27} 0
 
 test expr-13.1 {CompileUnaryExpr: unary exprs} {expr -0xff} -255
 test expr-13.2 {CompileUnaryExpr: unary exprs} {expr +000123} 83
@@ -497,6 +549,9 @@ test expr-13.17 {CompileUnaryExpr: negating non-numeric boolean literals} {
     set a1 yes; set a0 no; set b1 true; set b0 false
     list [expr {!$a1}] [expr {!$a0}] [expr {!$b1}] [expr {!$b0}]
 } {0 1 0 1}
+test expr-13.18 {CompileUnaryExpr: unary exprs} {expr not 2} 0
+test expr-13.19 {CompileUnaryExpr: unary exprs} {expr not 0.0} 1
+test expr-13.20 {CompileUnaryExpr: unary exprs} {expr not 0xef} 0
 
 test expr-14.1 {CompilePrimaryExpr: literal primary} {expr 1} 1
 test expr-14.2 {CompilePrimaryExpr: literal primary} {expr 123} 123
@@ -805,6 +860,13 @@ test expr-21.9 	{non-numeric boolean literals} {expr !off  } 1
 test expr-21.10 {non-numeric boolean literals} {expr !on   } 0
 test expr-21.11 {non-numeric boolean literals} {expr !no   } 1
 test expr-21.12 {non-numeric boolean literals} {expr !yes  } 0
+test expr-21.13	{non-numeric boolean literals} {expr not false} 1
+test expr-21.14	{non-numeric boolean literals} {expr not true } 0
+test expr-21.15	{non-numeric boolean literals} {expr not off  } 1
+test expr-21.16 {non-numeric boolean literals} {expr not on   } 0
+test expr-21.17 {non-numeric boolean literals} {expr not no   } 1
+test expr-21.18 {non-numeric boolean literals} {expr not yes  } 0
+
 
 # Test for non-numeric float handling.
 #

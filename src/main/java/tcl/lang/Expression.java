@@ -1309,7 +1309,7 @@ public class Expression {
 			value.setIntValue(((value.getIntValue() != 0) && (value2.getIntValue() != 0)));
 			break;
 		case OR:
-		case ALIASOR
+        case ALIASOR:
 			if (t2 == ExprValue.DOUBLE) {
 				value2.setIntValue(value2.getDoubleValue() != 0.0);
 			}

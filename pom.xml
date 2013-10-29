@@ -4,11 +4,24 @@
 	<groupId>com.testcl</groupId>
 	<artifactId>jtcl-irule</artifactId>
 	<packaging>jar</packaging>
-	<version>0.8-SNAPSHOT</version>
+	<version>0.9-SNAPSHOT</version>
 	<url>http://testcl.com</url>
 	<name>jtcl-irule</name>
+    <description>An extension which adds proprietary iRule operators to JTcl</description>
+    <developers>
+        <developer>
+            <name>Sebastian Brzuzek</name>
+        </developer>
+        <developer>
+            <name>Stefan Magnus Landrø</name>
+            <email>stefan.landro@bekk.no</email>
+            <organization>BEKK Consulting AS</organization>
+            <organizationUrl>http://open.bekk.no/</organizationUrl>
+            <timezone>Europe/Oslo</timezone>
+        </developer>
+    </developers>
 	<properties>
-		<jtcl.version>2.3.0</jtcl.version>
+		<jtcl.version>2.6.0</jtcl.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>

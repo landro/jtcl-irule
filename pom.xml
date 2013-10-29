@@ -4,7 +4,7 @@
 	<groupId>com.testcl</groupId>
 	<artifactId>jtcl-irule</artifactId>
 	<packaging>jar</packaging>
-	<version>0.9-SNAPSHOT</version>
+	<version>0.9</version>
 	<url>http://testcl.com</url>
 	<name>jtcl-irule</name>
     <description>An extension which adds proprietary iRule operators to JTcl</description>
@@ -44,7 +44,11 @@
 			<version>4.8.2</version>
 		</dependency>
 	</dependencies>
-	<build>
-	 <finalName>jtcl-irule</finalName>
-	</build>
+    <distributionManagement>
+        <repository>
+            <id>bintray-landro-maven-TesTcl</id>
+            <name>landro-maven-TesTcl</name>
+            <url>https://api.bintray.com/maven/landro/maven/TesTcl</url>
+        </repository>
+    </distributionManagement>
 </project>

@@ -38,20 +38,43 @@ It has excellent support for both git and mercurial.
 The next step, is to build and install the artifacts into your local maven repository using
 
     mvn clean install -DskipTests
+
+WARNING! you have to use JDK version 1.6. You can achieve this by setting JAVA_HOME appropriately.
     
-Next, fetch the source code of this project, and build code using 
+Next, fetch the source code of this project, and align the _jtcl.version_ property in _pom.xml_in with the JTcl version. Then, build the project using:
 
     mvn clean package
 
 This will generate a jar file named *jtcl-irule.jar* in the _target_ directory.
 This jar file has to be added to the classpath of the JTcl shell script in order to override som of the functionality found in JTcl.
-Place it in front of the other jar file - it will take precedence.
+Place it in front of the other jar file - it will take precedence. See TesTcl installation instructions for details.
 
 # What has been implemented so far
-All the special irule operators except for the following have been implemented:
-* and
-* or
-* not
+
+All the special iRule operators have now been implemented!
+
+Original JTcl source code was modified in order to support the following iRule operators:
+
+__iRule only operators__
+
+- *starts_with* Tests if one string starts with another string
+- *ends_with* Tests if one string ends with another string
+- *contains* Tests if one string contains another string
+- *matches_glob* Implement glob style matching within a comparison
+- *matches_regex* Tests if one string matches a regular expression
+
+__iRule aliases to standard Tcl operators__
+
+- *equals* Tests if one string equals another string (*eq* operator)
+- *and* Performs a logical "and" comparison between two values (*&&* operator)
+- *or* Performs a logical "or" comparison between two values (*||* operator)
+- *not* Performs a logical "not" on a value (*!* operator)
+
+The only files that have been modified are:
+
+- Expr.java
+- expr.test
+
 
 # License
 Both jtcl-irule and JTcl are released under a BSD-style license. 

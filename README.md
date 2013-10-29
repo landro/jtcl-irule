@@ -2,6 +2,10 @@
 
 This is an extension to [JTcl](http://jtcl.kenai.com/) that implements all the functionality F5 added to the Tcl language.
 
+# Download binary
+
+Instead of building this project yourself, you can download the binary from [bintray](https://bintray.com/landro/maven/TesTcl)
+
 # Building
 
 Fetch the [source](https://hg.kenai.com/hg/jtcl~jtcl-main) of [JTcl](http://jtcl.kenai.com/) using mercurial and replace the maven-jar-plugin config with the following in order to generate the test jar 

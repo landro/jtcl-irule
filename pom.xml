@@ -4,7 +4,7 @@
 	<groupId>com.testcl</groupId>
 	<artifactId>jtcl-irule</artifactId>
 	<packaging>jar</packaging>
-	<version>0.9</version>
+	<version>1.0-SNAPSHOT</version>
 	<url>http://testcl.com</url>
 	<name>jtcl-irule</name>
     <description>An extension which adds proprietary iRule operators to JTcl</description>

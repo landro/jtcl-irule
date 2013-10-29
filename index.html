@@ -31,11 +31,18 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h1>Introduction</h1>
+        <h1>
+<a name="introduction" class="anchor" href="#introduction"><span class="octicon octicon-link"></span></a>Introduction</h1>
 
 <p>This is an extension to <a href="http://jtcl.kenai.com/">JTcl</a> that implements all the functionality F5 added to the Tcl language.</p>
 
-<h1>Building</h1>
+<h1>
+<a name="download-binary" class="anchor" href="#download-binary"><span class="octicon octicon-link"></span></a>Download binary</h1>
+
+<p>Instead of building this project yourself, you can download the binary from <a href="https://bintray.com/landro/maven/TesTcl">bintray</a></p>
+
+<h1>
+<a name="building" class="anchor" href="#building"><span class="octicon octicon-link"></span></a>Building</h1>
 
 <p>Fetch the <a href="https://hg.kenai.com/hg/jtcl%7Ejtcl-main">source</a> of <a href="http://jtcl.kenai.com/">JTcl</a> using mercurial and replace the maven-jar-plugin config with the following in order to generate the test jar </p>
 
@@ -74,24 +81,55 @@ The next step, is to build and install the artifacts into your local maven repos
 <pre><code>mvn clean install -DskipTests
 </code></pre>
 
-<p>Next, fetch the source code of this project, and build code using </p>
+<p>WARNING! you have to use JDK version 1.6. You can achieve this by setting JAVA_HOME appropriately.</p>
+
+<p>Next, fetch the source code of this project, and align the <em>jtcl.version</em> property in <em>pom.xml</em>in with the JTcl version. Then, build the project using:</p>
 
 <pre><code>mvn clean package
 </code></pre>
 
 <p>This will generate a jar file named <em>jtcl-irule.jar</em> in the <em>target</em> directory.
 This jar file has to be added to the classpath of the JTcl shell script in order to override som of the functionality found in JTcl.
-Place it in front of the other jar file - it will take precedence.</p>
+Place it in front of the other jar file - it will take precedence. See TesTcl installation instructions for details.</p>
 
-<h1>What has been implemented so far</h1>
+<h1>
+<a name="what-has-been-implemented-so-far" class="anchor" href="#what-has-been-implemented-so-far"><span class="octicon octicon-link"></span></a>What has been implemented so far</h1>
 
-<p>All the special irule operators except for the following have been implemented:</p>
+<p>All the special iRule operators have now been implemented!</p>
+
+<p>Original JTcl source code was modified in order to support the following iRule operators:</p>
+
+<p><strong>iRule only operators</strong></p>
 
 <ul>
-<li>and</li>
-<li>or</li>
-<li>not</li>
-</ul><h1>License</h1>
+<li>
+<em>starts_with</em> Tests if one string starts with another string</li>
+<li>
+<em>ends_with</em> Tests if one string ends with another string</li>
+<li>
+<em>contains</em> Tests if one string contains another string</li>
+<li>
+<em>matches_glob</em> Implement glob style matching within a comparison</li>
+<li>
+<em>matches_regex</em> Tests if one string matches a regular expression</li>
+</ul><p><strong>iRule aliases to standard Tcl operators</strong></p>
+
+<ul>
+<li>
+<em>equals</em> Tests if one string equals another string (<em>eq</em> operator)</li>
+<li>
+<em>and</em> Performs a logical "and" comparison between two values (<em>&amp;&amp;</em> operator)</li>
+<li>
+<em>or</em> Performs a logical "or" comparison between two values (<em>||</em> operator)</li>
+<li>
+<em>not</em> Performs a logical "not" on a value (<em>!</em> operator)</li>
+</ul><p>The only files that have been modified are:</p>
+
+<ul>
+<li>Expr.java</li>
+<li>expr.test</li>
+</ul><h1>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h1>
 
 <p>Both jtcl-irule and JTcl are released under a BSD-style license. </p>
       </section>

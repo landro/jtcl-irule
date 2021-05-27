@@ -4,7 +4,7 @@ This is an extension to [JTcl](http://jtcl.kenai.com/) that implements all the f
 
 # Download binary
 
-Instead of building this project yourself, you can download the binary from [bintray](https://bintray.com/landro/maven/TesTcl)
+Instead of building this project yourself, you can download the binary from [Release v 0.9 ](https://github.com/landro/jtcl-irule/releases/tag/v0.9)
 
 # Building
 
